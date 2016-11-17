@@ -16,7 +16,7 @@ class PostComponent extends React.Component {
 
     return (
       <Card>
-        <CardHeader title={writerName} subtitle={writerEmail} />
+        <CardHeader title={writerName} subtitle={writerEmail} avatar={this.props.writerAvatarURL} />
         <CardTitle title={title}/>
         <CardText>{content}</CardText>
       </Card>
@@ -29,9 +29,12 @@ const mapStateToProps = (state, props) => {
   let writer = post.writer;
   var writerName = "N/A";
   var writerEmail = "N/A";
+  var writerAvatarURL = "#";
   if (writer) {
     writerName = writer.username;
     writerEmail = writer.email;
+    if (writer.avatar)
+      writerAvatarURL = writer.avatar.image;
   }
 
   return {
@@ -39,7 +42,8 @@ const mapStateToProps = (state, props) => {
     content: post.content,
     loaded: state.loaded,
     writerName: writerName,
-    writerEmail: writerEmail
+    writerEmail: writerEmail,
+    writerAvatarURL
   }
 }
 
