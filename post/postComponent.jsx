@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 import AppBar from 'material-ui/AppBar';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
 import actions from './postActions.jsx'
+import CommentComponent from './comment/commentComponent.jsx'
 
 class PostComponent extends React.Component {
   componentDidMount() {
@@ -15,11 +16,14 @@ class PostComponent extends React.Component {
     var { content, title, loaded , writerName, writerEmail} = this.props
 
     return (
-      <Card>
-        <CardHeader title={writerName} subtitle={writerEmail} avatar={this.props.writerAvatarURL} />
-        <CardTitle title={title}/>
-        <CardText>{content}</CardText>
-      </Card>
+      <div>
+        <Card>
+          <CardHeader title={writerName} subtitle={writerEmail} avatar={this.props.writerAvatarURL} />
+          <CardTitle title={title}/>
+          <CardText>{content}</CardText>
+        </Card>
+        { this.props.loggedInUserID ? <CommentComponent toID={this.props.postID} />: null}
+      </div>
     )
   }
 }
@@ -43,7 +47,8 @@ const mapStateToProps = (state, props) => {
     loaded: state.loaded,
     writerName: writerName,
     writerEmail: writerEmail,
-    writerAvatarURL
+    writerAvatarURL,
+    loggedInUserID: state.loggedInUserID
   }
 }
 

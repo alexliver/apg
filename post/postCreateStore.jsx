@@ -4,7 +4,7 @@ import epic from './postEpics.jsx'
 import reducer from './postReducers.jsx'
 
 const initialState = {
-  id: 1,
+  loggedInUserID: 1,
   post: {
     title: 'Loading...',
     content: 'Loading...'
