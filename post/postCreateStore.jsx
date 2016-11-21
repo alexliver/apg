@@ -1,10 +1,9 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
-import { createEpicMiddleware } from 'redux-observable'
+import { globalCreateStore } from '../globalRedux.jsx'
 import epic from './postEpics.jsx'
 import reducer from './postReducers.jsx'
 
 const initialState = {
-  loggedInUserID: 1,
+  loggedInUserID: null,
   post: {
     title: 'Loading...',
     content: 'Loading...'
@@ -15,9 +14,5 @@ const initialState = {
 };
 
 export default function() {
-  var epicMiddleware = createEpicMiddleware(epic);
-  var finalCreateStore = applyMiddleware(epicMiddleware)(createStore);
-  var store = finalCreateStore(reducer, initialState);
-
-  return store
+  return globalCreateStore(initialState, reducer, epic);
 }

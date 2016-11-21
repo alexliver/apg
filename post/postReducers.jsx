@@ -21,6 +21,8 @@ export default function reducer(state, action) {
         [action.repliableID] : false
       });
       return Object.assign({}, state, {submittingComments: newSubmittingComments2});
+    case 'loggedIn':
+      return Object.assign({}, state, {loggedInUserID: action.loggedInUserID});
   }
   return state;
 }

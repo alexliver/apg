@@ -1,11 +1,16 @@
 import React from 'react';
+import MainComponent from './mainComponent.jsx';
+import createStore from './mainCreateStore.jsx'
+import { Provider } from 'react-redux'
 
-export default class MainView extends React.Component {
+const store = createStore();
+export default class PostView extends React.Component {
   render () {
     return (
-      <div>main</div>
+      <Provider store={ store }>
+        <MainComponent children={this.props.children} />
+      </Provider>
     )
   }
 }
-
 
