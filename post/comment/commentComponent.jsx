@@ -5,8 +5,16 @@ import TextField from 'material-ui/TextField';
 class CommentComponent extends React.Component {
   componentDidMount() {
   }
+
+  handleChange(e) {
+    this.props.onChange(this.props.toID, e.target.value);
+  }
+
+  handleSubmit() {
+    this.props.onSubmit(this.props.toID);
+  }
+
   render () {
-    var { content, title, loaded , writerName, writerEmail} = this.props
     return (
       <div>
         <TextField
@@ -14,8 +22,9 @@ class CommentComponent extends React.Component {
           floatingLabelText="Comment"
           multiLine={true}
           rows={4}
+          onChange = {this.handleChange.bind(this)}
         /> 
-        <RaisedButton label="Submit comment" primary={true}  />
+        <RaisedButton label="Submit comment" primary={true} onClick={this.handleSubmit.bind(this)} />
       </div>
     )
   }

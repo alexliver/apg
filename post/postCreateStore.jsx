@@ -9,6 +9,8 @@ const initialState = {
     title: 'Loading...',
     content: 'Loading...'
   },
+  comments: {},
+  submittingComments: {},
   loaded: false
 };
 

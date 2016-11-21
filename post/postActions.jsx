@@ -7,6 +7,22 @@ const actions = {
   loadedPost: function(res) {
     return {type: 'loadedPost', loadedData: res};
   },
+
+  editComment: function(repliableID, text) {
+    return {type: 'editComment', repliableID, text};
+  },
+
+  submitComment: function(repliableID) {
+    return {type: 'submitComment', repliableID};
+  },
+
+  submittingComment: function(repliableID) {
+    return {type: 'submittingComment', repliableID};
+  },
+
+  submittedComment: function(repliableID) {
+    return {type: 'submittedComment', repliableID};
+  },
 };
 
 export default actions;

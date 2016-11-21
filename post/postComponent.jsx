@@ -12,6 +12,7 @@ class PostComponent extends React.Component {
     let postID = this.props.postID;
     this.props.dispatch(actions.loadPost(postID))
   }
+
   render () {
     var { content, title, loaded , writerName, writerEmail} = this.props
 
@@ -22,9 +23,21 @@ class PostComponent extends React.Component {
           <CardTitle title={title}/>
           <CardText>{content}</CardText>
         </Card>
-        { this.props.loggedInUserID ? <CommentComponent toID={this.props.postID} />: null}
+        { this.props.loggedInUserID ? <CommentComponent 
+          toID={this.props.postID} 
+          onChange={this.onCommentChange.bind(this)} 
+          onSubmit={this.onCommentSubmit.bind(this)} 
+        />: null}
       </div>
     )
+  }
+
+  onCommentChange(repliableID, text) {
+    this.props.dispatch(actions.editComment(repliableID, text));
+  }
+
+  onCommentSubmit(repliableID) {
+    this.props.dispatch(actions.submitComment(repliableID));
   }
 }
 

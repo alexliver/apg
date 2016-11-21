@@ -6,6 +6,21 @@ export default function reducer(state, action) {
         post: action.loadedData,
         loaded: true
       });
+    case "editComment": 
+      let newComments = Object.assign({}, state.comments, {
+        [action.repliableID] : action.text
+      });
+      return Object.assign({}, state, {comments: newComments});
+    case "submittingComment": 
+      let newSubmittingComments = Object.assign({}, state.submittingComments, {
+        [action.repliableID] : true
+      });
+      return Object.assign({}, state, {submittingComments: newSubmittingComments});
+    case "submittedComment": 
+      let newSubmittingComments2 = Object.assign({}, state.submittingComments, {
+        [action.repliableID] : false
+      });
+      return Object.assign({}, state, {submittingComments: newSubmittingComments2});
   }
   return state;
 }
