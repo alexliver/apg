@@ -9,6 +9,8 @@ const initialState = {
   menuOpened: false,
   loginDialogOpened: false,
   token: null,
+  selectedIndex: 0,
+  categories: []
 };
 
 const globalMiddleware = store => next => action => {

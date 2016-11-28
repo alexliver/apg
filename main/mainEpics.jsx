@@ -19,6 +19,11 @@ const epics = {
 
     return Observable.merge(state$, ajax$);
   },
+  loadCategories: (action$) => {
+    return action$.ofType('loadCategories').mergeMap(action => {
+      return ajax.getJSON(config.url + 'category/').map(json => actions.loadedCategories(json));
+    });
+  }
 };
 
 export default function (action$, store) {

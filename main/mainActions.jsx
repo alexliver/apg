@@ -7,6 +7,8 @@ const actions = {
 
   openLoginDialog: () => ({type: 'openLoginDialog'}),
   hideLoginDialog: () => ({type: 'hideLoginDialog'}),
+  loadedCategories: (categories) => ({type: 'loadedCategories', categories}),
+  loadCategories: () => ({type: 'loadCategories'}),
 };
 
 export default actions;

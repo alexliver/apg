@@ -7,6 +7,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import actions from './postActions.jsx'
 import CommentComponent from './comment/commentComponent.jsx'
 import ReplyComponent from './comment/replyComponent.jsx'
+import PostContentComponent from './postContentComponent.jsx'
 
 class PostComponent extends React.Component {
   componentDidMount() {
@@ -20,11 +21,8 @@ class PostComponent extends React.Component {
 
     return (
       <div>
-        <Card>
-          <CardHeader title={writerName} subtitle="The Supreme Leader" avatar={this.props.writerAvatarURL} />
-          <CardTitle title={title}/>
-          <CardText>{content}</CardText>
-        </Card>
+        <PostContentComponent writerName={writerName} writerTitle="The Supreme Leader" writerAvatarURL={this.props.writerAvatarURL}
+            title={title} content={content} />
         {this.props.replies.map(function(reply, i){
           return <ReplyComponent data={reply} onCommentChange={me.onCommentChange.bind(me)} 
             onCommentSubmit={me.onCommentSubmit.bind(me)} loggedInUserID= {me.props.loggedInUserID} />;

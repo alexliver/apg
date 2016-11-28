@@ -10,6 +10,8 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {loginDialogOpened: false});
     case "loggedIn":
       return Object.assign({}, state, {token: action.token, loggedInUser: action.user});
+    case "loadedCategories":
+      return Object.assign({}, state, {categories: action.categories});
   }
   return state;
 }
