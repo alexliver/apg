@@ -6,6 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import actions from './postActions.jsx'
 import CommentComponent from './comment/commentComponent.jsx'
+import ReplyComponent from './comment/replyComponent.jsx'
 
 class PostComponent extends React.Component {
   componentDidMount() {
@@ -14,15 +15,20 @@ class PostComponent extends React.Component {
   }
 
   render () {
+    const me = this;
     var { content, title, loaded , writerName, writerEmail} = this.props
 
     return (
       <div>
         <Card>
-          <CardHeader title={writerName} subtitle={writerEmail} avatar={this.props.writerAvatarURL} />
+          <CardHeader title={writerName} subtitle="The Supreme Leader" avatar={this.props.writerAvatarURL} />
           <CardTitle title={title}/>
           <CardText>{content}</CardText>
         </Card>
+        {this.props.replies.map(function(reply, i){
+          return <ReplyComponent data={reply} onCommentChange={me.onCommentChange.bind(me)} 
+            onCommentSubmit={me.onCommentSubmit.bind(me)} loggedInUserID= {me.props.loggedInUserID} />;
+        })} 
         { this.props.loggedInUserID ? <CommentComponent 
           toID={this.props.postID} 
           onChange={this.onCommentChange.bind(this)} 
@@ -61,7 +67,8 @@ const mapStateToProps = (state, props) => {
     writerName: writerName,
     writerEmail: writerEmail,
     writerAvatarURL,
-    loggedInUserID: state.loggedInUserID
+    loggedInUserID: state.loggedInUserID,
+    replies: state.replies
   }
 }
 

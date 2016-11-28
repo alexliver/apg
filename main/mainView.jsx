@@ -4,7 +4,7 @@ import createStore from './mainCreateStore.jsx'
 import { Provider } from 'react-redux'
 
 const store = createStore();
-export default class PostView extends React.Component {
+export default class MainView extends React.Component {
   render () {
     return (
       <Provider store={ store }>

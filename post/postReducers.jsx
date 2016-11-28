@@ -4,6 +4,7 @@ export default function reducer(state, action) {
     case "loadedPost":
       return Object.assign({}, state, {
         post: action.loadedData,
+        replies: action.loadedData.replies,
         loaded: true
       });
     case "editComment": 

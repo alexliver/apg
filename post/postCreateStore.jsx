@@ -8,6 +8,7 @@ const initialState = {
     title: 'Loading...',
     content: 'Loading...'
   },
+  replies: [],
   comments: {},
   submittingComments: {},
   loaded: false
