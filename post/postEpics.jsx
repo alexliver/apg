@@ -1,5 +1,6 @@
 import {Observable } from 'rxjs'
 import actions from './postActions.jsx'
+import {mainActions} from '../globalRedux.jsx'
 import config from '../config.jsx'
 var ajax = Observable.ajax
 
@@ -8,13 +9,13 @@ const epics = {
     return  action$.filter(function(action) {
       return action.type === 'loadPost' && action.id;
     }).mergeMap(function(action) {
-        var ajax$ = ajax.getJSON(config.url + 'post/' + action.id + '/');
-        var loaded$ = ajax$.map(function(res) {
-          return actions.loadedPost(res);
-        });
+      return ajax.getJSON(config.url + 'post/' + action.id + '/')
+        .mergeMap(res => Observable.from([ 
+          actions.loadedPost(res) , 
+          mainActions.changeCategory(res.category.pk) 
+        ]));
 
-        return loaded$;
-      });
+    });
   },
 
   submitComment: function(action$, store) {
@@ -32,7 +33,10 @@ const epics = {
     });
 
     return Observable.merge(state$, ajax$);
-  }
+  },
+
+  goBack: (action$, store) => action$.ofType('goBack').map(action => mainActions.loadURL(`/category/${store.getState().post.category.pk}`)),
+  
 };
 
 export default function (action$, store) {

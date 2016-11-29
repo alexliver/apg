@@ -1,17 +1,32 @@
 import React from 'react';
 import createStore from './categoryStore.jsx'
 import actions from './categoryActions.jsx'
+import {mainActions} from '../globalRedux.jsx'
 import PostContentComponent from './postContentComponent.jsx'
 import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
 import { Link} from 'react-router'
+import { hashHistory} from 'react-router'
 
 
 const store = createStore();
 
 class CategoryComponent extends React.Component {
   componentDidMount() {
+    const me = this;
+    hashHistory.listen((location) => {
+      console.log(`location: ${location.pathname}. action: ${location.action}. categoryID: ${me.props.categoryID}`);
+      if (location.action == 'POP')
+        me.routeLocationDidUpdate(location);
+    });
+    this.props.dispatch(mainActions.setIsRoot(true));
     this.props.dispatch(actions.loadCategory(this.props.categoryID))
+    this.props.dispatch(mainActions.changeCategory(this.props.categoryID))
+  }
+
+  routeLocationDidUpdate() {
+    this.props.dispatch(actions.loadCategory(this.props.categoryID))
+    this.props.dispatch(mainActions.changeCategory(this.props.categoryID))
   }
 
   render () {

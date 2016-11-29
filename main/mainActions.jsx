@@ -1,3 +1,5 @@
+import {mainActions} from '../globalRedux.jsx'
+
 const actions = {
   toggleMenu: () => ({type: 'toggleMenu'}),
   setMenuOpen: (open) => ({type: 'toggleMenu', open}),
@@ -9,6 +11,7 @@ const actions = {
   hideLoginDialog: () => ({type: 'hideLoginDialog'}),
   loadedCategories: (categories) => ({type: 'loadedCategories', categories}),
   loadCategories: () => ({type: 'loadCategories'}),
+  goBack: () => ({type: 'goBack'}),
 };
 
-export default actions;
+export default Object.assign({}, actions, mainActions);

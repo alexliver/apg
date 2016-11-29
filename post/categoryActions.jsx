@@ -3,9 +3,13 @@ import config from '../config.jsx'
 var ajax = Observable.ajax
 
 const epics = {
-  loadCategory: function(action$) {
-    return action$.ofType('loadCategory').mergeMap(action => {
-      return ajax.getJSON(config.url + 'categoryPostList/' + action.id + '/').map(res => actions.loadedCategory(res));
+  loadCategory: function(action$, store) {
+    return action$.ofType('loadCategory').filter(action => action.id != store.getState().categoryID).mergeMap(action => {
+      //console.log(store.getState().categoryID);
+      return Observable.merge(
+        Observable.from([actions.setCategoryID(action.id), actions.loadedCategory([])]),
+        ajax.getJSON(config.url + 'categoryPostList/' + action.id + '/').map(res => actions.loadedCategory(res))
+      );
     });
   },
 
@@ -25,6 +29,9 @@ const actions = {
   loadedCategory: function(res) {
     return {type: 'loadedCategory', posts: res};
   },
+
+  setCategoryID: categoryID => ({type: 'setCategoryID', categoryID}),
+
 };
 
 export default actions;

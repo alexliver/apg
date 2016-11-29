@@ -8,10 +8,12 @@ import actions from './postActions.jsx'
 import CommentComponent from './comment/commentComponent.jsx'
 import ReplyComponent from './comment/replyComponent.jsx'
 import PostContentComponent from './postContentComponent.jsx'
+import {mainActions} from '../globalRedux.jsx'
 
 class PostComponent extends React.Component {
   componentDidMount() {
     let postID = this.props.postID;
+    this.props.dispatch(mainActions.setIsRoot(false));
     this.props.dispatch(actions.loadPost(postID))
   }
 

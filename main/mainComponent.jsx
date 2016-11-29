@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import LoginDialog from './login/loginDialog.jsx'
 import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 import Paper from 'material-ui/Paper';
@@ -24,6 +25,9 @@ const getCategoryIcon = (iconType) => {
       return <FontIcon className="material-icons">restore</FontIcon>;
   }
 }
+
+const menuIcon = <FontIcon className="material-icons">more_vert</FontIcon>;
+const backIcon = <FontIcon className="material-icons">chevron_left</FontIcon>;
 
 class MainComponent extends React.Component {
   constructor(props) {
@@ -56,7 +60,23 @@ class MainComponent extends React.Component {
   }
 
   clickCategory(categoryID) {
+    this.props.dispatch(actions.changeCategory(categoryID));
     hashHistory.push(`/category/${categoryID}`);
+  }
+
+  clickBack() {
+    //hashHistory.goBack();
+    this.props.dispatch(actions.goBack());
+  }
+
+  getCategoryIndex() {
+    return this.props.categories.findIndex((category) => category.pk == this.props.selectedCategoryID);
+  }
+
+  getTitle() {
+    const category = this.props.categories.find((category) => category.pk == this.props.selectedCategoryID);
+    if (category)
+      return category.name;
   }
 
   render () {
@@ -72,15 +92,16 @@ class MainComponent extends React.Component {
       <div>
         <Paper style={{display:'flex', height: '100%', 'flex-direction': 'column'}}>
           <AppBar
-            title="Title"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-            onClick={this.toggleMenu.bind(this)}
+            title={this.getTitle()}
+            iconElementRight={<IconButton onClick={this.toggleMenu.bind(this)}>{menuIcon}</IconButton>}
+            iconElementLeft={me.props.isRoot?null:<IconButton onClick={this.clickBack.bind(this)}>{backIcon}</IconButton>}
+            showMenuIconButton={!me.props.isRoot}
             style={{flex: "0 0 auto"}}
           />
           <div style={{flex: "1 1 auto", 'overflow-y': 'auto'}}>
             {this.props.children || <CategoryView categoryID={1} />}
           </div>
-          <BottomNavigation selectedIndex={this.props.selectedIndex} style={{flex: "0 0 auto"}}>
+          <BottomNavigation selectedIndex={this.getCategoryIndex()} style={{flex: "0 0 auto"}}>
             {this.props.categories.map(category => 
             <BottomNavigationItem
               label={category.name}
@@ -89,7 +110,7 @@ class MainComponent extends React.Component {
             />)}
           </BottomNavigation>
         </Paper>
-        <Drawer open={this.props.menuOpened} docked={false} onRequestChange={this.hangleMenuChange.bind(this)}>
+        <Drawer open={this.props.menuOpened} docked={false} onRequestChange={this.hangleMenuChange.bind(this)} openSecondary={true}>
           {menuItems}
         </Drawer>
         <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} />
@@ -107,9 +128,11 @@ const mapStateToProps = (state, props) => {
   return {
     menuOpened: state.menuOpened,
     loginDialogOpened: state.loginDialogOpened,
-    selectedIndex: state.selectedIndex,
+    selectedCategoryID: state.selectedCategoryID,
     categories: state.categories,
-    loggedInUserID, loggedInUserName
+    title: state.title,
+    loggedInUserID, loggedInUserName,
+    isRoot: state.isRoot,
   };
 }
 
