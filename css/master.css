@@ -1,3 +1,9 @@
+html, body {margin:0;padding:0;height:100%;}
+
 body {
   margin: 0;
+}
+
+#app, [data-reactroot] {
+margin:0;padding:0;height:100%;
 }

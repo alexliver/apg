@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
-import { hashHistory} from 'react-router'
+import { browserHistory} from 'react-router'
 
 let mainStore = null;
 export function setMainStore(store) {
@@ -20,7 +20,7 @@ const globalMiddleware = store => next => action => {
       mainStore.dispatch(action);
       break;
     case 'loadURL':
-      hashHistory.push(action.url);
+      browserHistory.push(action.url);
       break;
     default:
       let result = next(action)

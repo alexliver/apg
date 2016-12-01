@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import MainComponentMobile from './mainComponentMobile.jsx'
 import MainComponentDesktop from './mainComponentDesktop.jsx'
 import {isMobile} from '../util.jsx'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const mapStateToProps = (state, props) => {
   let loggedInUserID = null, loggedInUserName = null;
@@ -21,11 +22,15 @@ const mapStateToProps = (state, props) => {
   };
 }
 
-let ConnectedMainComponent = null;
-if (isMobile())
-  ConnectedMainComponent = connect(mapStateToProps)(MainComponentMobile)
-else
-  ConnectedMainComponent = connect(mapStateToProps)(MainComponentDesktop)
 
-export default ConnectedMainComponent
+const MainComponent = (props) => {
+  let ConnectedMainComponent = null;
+  if (isMobile())
+    ConnectedMainComponent = connect(mapStateToProps)(MainComponentMobile );
+  else
+    ConnectedMainComponent = connect(mapStateToProps)(MainComponentDesktop );
+  return <MuiThemeProvider><ConnectedMainComponent children={props.children} /></MuiThemeProvider>
+}
+
+export default MainComponent
 

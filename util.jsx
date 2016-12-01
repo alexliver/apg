@@ -1,7 +1,15 @@
+var MobileDetect = require('mobile-detect');
+
+let userAgent = null;
+export function setUserAgent(_userAgent) {
+  userAgent = _userAgent;
+}
+
 export const isMobile = () => {
-   if(window.innerWidth <= 800 && window.innerHeight <= 600) {
-     return true;
-   } else {
-     return false;
-   }
+  if (!userAgent)
+    userAgent = eval('window').navigator.userAgent;
+  let md = new MobileDetect(userAgent);
+  if ( md.mobile())
+    return true;
+  return false;
 }

@@ -9,24 +9,29 @@ import IconButton from 'material-ui/IconButton';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 import Paper from 'material-ui/Paper';
-import { hashHistory} from 'react-router'
+import { browserHistory} from 'react-router'
 import CategoryView from '../post/categoryView.jsx'
+import IconMoreVert from 'material-ui/svg-icons/navigation/more-vert';
+import IconMusicVideo from 'material-ui/svg-icons/av/music-video';
+import IconCode from 'material-ui/svg-icons/action/code';
+import IconRestore from 'material-ui/svg-icons/action/restore';
+import IconChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 
 
 const getCategoryIcon = (iconType) => {
   
   switch (iconType) {
     case "music": 
-      return <FontIcon className="material-icons">music_video</FontIcon>;
+      return <IconMusicVideo />;
     case "programming": 
-      return <FontIcon className="material-icons">code</FontIcon>;
+      return <IconCode />;
     default:
-      return <FontIcon className="material-icons">restore</FontIcon>;
+      return <IconRestore />;
   }
 }
 
-const menuIcon = <FontIcon className="material-icons">more_vert</FontIcon>;
-const backIcon = <FontIcon className="material-icons">chevron_left</FontIcon>;
+const menuIcon = <IconMoreVert />;
+const backIcon = <IconChevronLeft />;
 
 export default class MainComponent extends React.Component {
   constructor(props) {
@@ -60,7 +65,7 @@ export default class MainComponent extends React.Component {
 
   clickCategory(categoryID) {
     this.props.dispatch(actions.changeCategory(categoryID));
-    hashHistory.push(`/category/${categoryID}`);
+    browserHistory.push(`/category/${categoryID}`);
   }
 
   clickBack() {
@@ -89,7 +94,7 @@ export default class MainComponent extends React.Component {
 
     return (
       <div>
-        <Paper style={{display:'flex', height: '100%', 'flex-direction': 'column'}}>
+        <Paper style={{display:'flex', height: '100%', 'flexDirection': 'column'}}>
           <AppBar
             title={this.getTitle()}
             iconElementRight={<IconButton onClick={this.toggleMenu.bind(this)}>{menuIcon}</IconButton>}
@@ -97,7 +102,7 @@ export default class MainComponent extends React.Component {
             showMenuIconButton={!me.props.isRoot}
             style={{flex: "0 0 auto"}}
           />
-          <div style={{flex: "1 1 auto", 'overflow-y': 'auto'}}>
+          <div style={{flex: "1 1 auto", 'overflowY': 'auto'}}>
             {this.props.children || <CategoryView categoryID={1} />}
           </div>
           <BottomNavigation selectedIndex={this.getCategoryIndex()} style={{flex: "0 0 auto"}}>

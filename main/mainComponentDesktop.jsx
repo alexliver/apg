@@ -11,7 +11,7 @@ import Paper from 'material-ui/Paper';
 import CategoryView from '../post/categoryView.jsx'
 import actions from './mainActions.jsx'
 import FlatButton from 'material-ui/FlatButton';
-import { hashHistory} from 'react-router'
+import { browserHistory} from 'react-router'
 import LoginDialog from './login/loginDialog.jsx'
 
 
@@ -22,7 +22,7 @@ export default class ToolbarExamplesSimple extends React.Component {
 
   clickCategory(categoryID) {
     this.props.dispatch(actions.changeCategory(categoryID));
-    hashHistory.push(`/category/${categoryID}`);
+    browserHistory.push(`/category/${categoryID}`);
   }
 
   onLogin(username, password) {
