@@ -14,7 +14,7 @@ class PostComponent extends React.Component {
   componentDidMount() {
     let postID = this.props.postID;
     this.props.dispatch(mainActions.setIsRoot(false));
-    this.props.dispatch(actions.loadPost(postID))
+    this.props.dispatch(actions.firstLoadPost(postID));
   }
 
   render () {

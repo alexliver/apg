@@ -3,8 +3,18 @@ import MainComponent from './mainComponent.jsx';
 import createStore from './mainCreateStore.jsx'
 import { Provider } from 'react-redux'
 
-const store = createStore();
+
+let store = null;
+
 export default class MainView extends React.Component {
+  constructor(props){
+    super(props);
+    let preloadedState = window.__PRELOADED_GLOBAL_STATE__;
+    if (!preloadedState)
+      preloadedState = {};
+    store = createStore(preloadedState);
+  }
+
   render () {
     return (
       <Provider store={ store }>

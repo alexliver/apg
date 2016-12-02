@@ -23,6 +23,8 @@ const actions = {
   submittedComment: function(repliableID) {
     return {type: 'submittedComment', repliableID};
   },
+
+  firstLoadPost: id => ({type: 'firstLoadPost', id}),
 };
 
 export default actions;

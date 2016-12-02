@@ -15,7 +15,7 @@ import IconMoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import IconMusicVideo from 'material-ui/svg-icons/av/music-video';
 import IconCode from 'material-ui/svg-icons/action/code';
 import IconRestore from 'material-ui/svg-icons/action/restore';
-import IconChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+import IconArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
 
 const getCategoryIcon = (iconType) => {
@@ -31,7 +31,7 @@ const getCategoryIcon = (iconType) => {
 }
 
 const menuIcon = <IconMoreVert />;
-const backIcon = <IconChevronLeft />;
+const backIcon = <IconArrowBack />;
 
 export default class MainComponent extends React.Component {
   constructor(props) {

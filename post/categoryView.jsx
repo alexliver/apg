@@ -7,9 +7,10 @@ import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
 import { Link} from 'react-router'
 import { browserHistory} from 'react-router'
+import {getPrePageState} from '../util.jsx'
 
 
-const store = createStore();
+let store = null;
 
 class CategoryComponent extends React.Component {
   componentDidMount() {
@@ -51,6 +52,11 @@ const ConnectedCategoryComponent = connect(mapStateToProps)(CategoryComponent)
 
 
 export default class CategoryView extends React.Component {
+  constructor(props){
+    super(props);
+    store = createStore(getPrePageState());
+  }
+
   render () {
     let categoryID = this.props.categoryID;
     if (!categoryID)

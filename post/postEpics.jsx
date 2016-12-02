@@ -35,6 +35,10 @@ const epics = {
     return Observable.merge(state$, ajax$);
   },
 
+  firstLoadPost: (action$, store) => action$.ofType('firstLoadPost')
+    .filter(action => !store.getState().loaded)
+    .map(action => actions.loadPost(action.id)),
+
   goBack: (action$, store) => action$.ofType('goBack').map(action => mainActions.loadURL(`/category/${store.getState().post.category.pk}`)),
   
 };

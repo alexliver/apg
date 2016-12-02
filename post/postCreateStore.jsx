@@ -14,6 +14,6 @@ const initialState = {
   loaded: false
 };
 
-export default function() {
-  return globalCreateStore(initialState, reducer, epic);
+export default function(preState) {
+  return globalCreateStore(Object.assign({}, initialState, preState), reducer, epic);
 }

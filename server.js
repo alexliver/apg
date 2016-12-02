@@ -2,6 +2,7 @@ require('babel-core/register')({
   presets: ['es2015', 'react']
 });
 global.navigator = { userAgent: 'all' };
+global.window = {};
 var http = require('http'),
     browserify = require('browserify'),
     literalify = require('literalify'),
@@ -16,7 +17,8 @@ var RouterContext = ReactRouter.RouterContext;
 var routes = require('./routes.jsx').default
 var fs = require( 'fs');
 var setUserAgent = require('./util.jsx').setUserAgent;
-
+var getGlobalState = require('./util.jsx').getGlobalState;
+var getPageState = require('./util.jsx').getPageState;
 
 // Just create a plain old HTTP server that responds to two endpoints ('/' and
 // '/bundle.js') This would obviously work similarly with any higher level
@@ -58,8 +60,17 @@ http.createServer(function(req, res) {
         // your "not found" component or route respectively, and send a 404 as
         // below, if you're using a catch-all route.
         //res.status(200).send(renderToString(RouterContext (renderProps)))
-        var app = React.createFactory(RouterContext)(renderProps);
-        res.end (createPage(ReactDOMServer.renderToString(app)));
+        Promise.all([getGlobalState(req.url), getPageState(req.url)]).then(arr => {
+          let pageState = arr[1].pageState;
+          let globalState = Object.assign({}, arr[0], arr[1].globalState);
+          window.__PRELOADED_GLOBAL_STATE__ = globalState;
+          window.__PRELOADED_PAGE_STATE__ = pageState;
+          var app = React.createFactory(RouterContext)(renderProps);
+          res.end (createPage(ReactDOMServer.renderToString(app), globalState, pageState));
+        }).catch((error) => {
+          var app = React.createFactory(RouterContext)(renderProps);
+          res.end (createPage(ReactDOMServer.renderToString(app)), {});
+        });
       } else {
         res.statusCode = 404;
         res.end();
@@ -81,7 +92,7 @@ function safeStringify(obj) {
     .replace(/\u2029/g, '\\u2029') // Ditto
 }
 
-function createPage(html) {
+function createPage(html, globalState, pageState) {
   return `
   <!doctype html>
   <html>
@@ -98,6 +109,10 @@ function createPage(html) {
     </head>
     <body>
       <div id="app"><div>${html}</div></div>
+      <script>
+        window.__PRELOADED_GLOBAL_STATE__ = ${JSON.stringify(globalState)};
+        window.__PRELOADED_PAGE_STATE__ = ${JSON.stringify(pageState)};
+      </script>
       <script src="/dist/index.bundle.js" type="text/javascript" ></script>
     </body>
   </html>

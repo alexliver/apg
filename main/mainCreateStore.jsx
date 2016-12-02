@@ -28,11 +28,14 @@ const globalMiddleware = store => next => action => {
   return result
 }
 
-export default function() {
+export default function(preState) {
   var epicMiddleware = createEpicMiddleware(epic);
   var finalCreateStore = applyMiddleware(globalMiddleware)(createStore);
   finalCreateStore = applyMiddleware(epicMiddleware)(finalCreateStore);
-  var store = finalCreateStore(reducer, initialState);
+  let state = initialState;
+  if (preState)
+    state = Object.assign({}, state, preState);
+  var store = finalCreateStore(reducer, state);
   setMainStore(store);
   return store;
 }
