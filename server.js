@@ -24,7 +24,6 @@ var getPageState = require('./util.jsx').getPageState;
 // '/bundle.js') This would obviously work similarly with any higher level
 // library (Express, etc)
 http.createServer(function(req, res) {
-  setUserAgent(req.headers['user-agent']);
   if (req.url == "/dist/index.bundle.js" ) {
     res.setHeader('Content-Type', 'text/javascript')
 
@@ -56,6 +55,8 @@ http.createServer(function(req, res) {
         });
         res.end();
       } else if (renderProps) {
+        setUserAgent(req.headers['user-agent']);
+        global.navigator = { userAgent: req.headers['user-agent'] };
         // You can also check renderProps.components or renderProps.routes for
         // your "not found" component or route respectively, and send a 404 as
         // below, if you're using a catch-all route.
