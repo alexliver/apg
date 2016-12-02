@@ -4,6 +4,6 @@ body {
   margin: 0;
 }
 
-#app, [data-reactroot] {
+#app, [data-reactroot], .root {
 margin:0;padding:0;height:100%;
 }

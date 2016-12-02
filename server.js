@@ -109,7 +109,7 @@ function createPage(html, globalState, pageState) {
       <link href="/css/master.css" rel="stylesheet"/>
     </head>
     <body>
-      <div id="app"><div>${html}</div></div>
+      <div id="app"><div class="root">${html}</div></div>
       <script>
         window.__PRELOADED_GLOBAL_STATE__ = ${JSON.stringify(globalState)};
         window.__PRELOADED_PAGE_STATE__ = ${JSON.stringify(pageState)};
