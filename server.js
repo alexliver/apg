@@ -37,6 +37,10 @@ http.createServer(function(req, res) {
     fs.readFile(`.${req.url}`, (err, data) => {
       res.end (data);
     });
+  } else if (req.url.endsWith('.map') ) {
+    fs.readFile(`.${req.url}`, (err, data) => {
+      res.end (data);
+    });
   } else if (req.url.indexOf('/css/') == 0) {
     fs.readFile(`.${req.url}`, (err, data) => {
       res.end (data);

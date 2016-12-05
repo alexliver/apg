@@ -1,5 +1,8 @@
 module.exports = {
   entry: './index.jsx',
+  devtool: 'source-map',
+  debug: true,
+  
   module: {
     loaders: [
       { test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader" },
