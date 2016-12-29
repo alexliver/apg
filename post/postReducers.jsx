@@ -23,7 +23,7 @@ export default function reducer(state, action) {
       });
       return Object.assign({}, state, {submittingComments: newSubmittingComments2});
     case 'loggedIn':
-      return Object.assign({}, state, {loggedInUserID: action.loggedInUserID});
+      return Object.assign({}, state, {loggedIn: true});
   }
   return state;
 }

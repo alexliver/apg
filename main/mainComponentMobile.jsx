@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import LoginDialog from './login/loginDialog.jsx'
+import RegisterDialog from './login/registerDialog.jsx'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
@@ -55,12 +56,24 @@ export default class MainComponent extends React.Component {
     this.props.dispatch(actions.login(username, password));
   }
 
+  onRegister(username, password) {
+    this.props.dispatch(actions.register(username, password));
+  }
+
   onOpenLoginDialog() {
     this.props.dispatch(actions.openLoginDialog());
   }
 
+  onOpenRegisterDialog() {
+    this.props.dispatch(actions.openRegisterDialog());
+  }
+
   hideLoginDialog() {
     this.props.dispatch(actions.hideLoginDialog());
+  }
+
+  hideRegisterDialog() {
+    this.props.dispatch(actions.hideRegisterDialog());
   }
 
   clickCategory(categoryID) {
@@ -86,10 +99,13 @@ export default class MainComponent extends React.Component {
   render () {
     const me = this;
     let menuItems ;
-    if (this.props.loggedInUserID) {
+    if (this.props.loggedInUserName) {
       menuItems = [<MenuItem>Hello, {this.props.loggedInUserName}</MenuItem>]
     } else {
-      menuItems = [<MenuItem onClick={this.onOpenLoginDialog.bind(this)}>Login</MenuItem>]
+      menuItems = [
+        <MenuItem onClick={this.onOpenLoginDialog.bind(this)}>Login</MenuItem>,
+        <MenuItem onClick={this.onOpenRegisterDialog.bind(this)}>Register</MenuItem>,
+      ]
     }
 
     return (
@@ -118,24 +134,26 @@ export default class MainComponent extends React.Component {
           {menuItems}
         </Drawer>
         <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} />
+        <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 
+            onCancel={this.hideRegisterDialog.bind(this)} />
       </div>
     )
   }
 }
 
 const mapStateToProps = (state, props) => {
-  let loggedInUserID = null, loggedInUserName = null;
-  if (state.loggedInUser) {
-    loggedInUserID = state.loggedInUser.pk;
-    loggedInUserName = state.loggedInUser.username;
+  let loggedInUserName = null;
+  if (state.username) {
+    loggedInUserName = username;
   }
   return {
     menuOpened: state.menuOpened,
     loginDialogOpened: state.loginDialogOpened,
+    registerDialogOpened: state.registerDialogOpened,
     selectedCategoryID: state.selectedCategoryID,
     categories: state.categories,
     title: state.title,
-    loggedInUserID, loggedInUserName,
+    loggedInUserName,
     isRoot: state.isRoot,
   };
 }

@@ -6,13 +6,13 @@ class ReplyComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, props.data, {
-      loggedInUserID: props.loggedInUserID,
+      loggedIn: props.loggedIn,
       commentShow: false
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(Object.assign({}, nextProps.data, {loggedInUserID: nextProps.loggedInUserID}));
+    this.setState(Object.assign({}, nextProps.data, {loggedIn: nextProps.loggedIn}));
   }
 
   toggleComment() {
@@ -38,7 +38,7 @@ class ReplyComponent extends React.Component {
           avatar={writer.avatar.image}
         />
         <CardText>{state.content}</CardText>
-        {state.loggedInUserID?  [
+        {state.loggedIn?  [
           <a onClick={this.toggleComment.bind(this)}>{state.commentShow? 'Hide reply': 'Reply' }</a>,
           state.commentShow? (<CommentComponent 
             toID={state.pk} 
@@ -47,7 +47,7 @@ class ReplyComponent extends React.Component {
           />): null
         ]: null}
         {state.replies.map((reply) => (
-          <ReplyComponent data={reply} loggedInUserID={state.loggedInUserID} onCommentChange={this.onCommentChange.bind(this)} 
+          <ReplyComponent data={reply} loggedIn={state.loggedIn} onCommentChange={this.onCommentChange.bind(this)} 
             onCommentSubmit={this.onCommentSubmit.bind(this)} />
         ))}
       </div>

@@ -8,6 +8,7 @@ const initialState = {
   loggedInUser: null,
   menuOpened: false,
   loginDialogOpened: false,
+  registerDialogOpened: false,
   token: null,
   selectedCategoryID: 1,
   categories: [],
@@ -18,7 +19,7 @@ const initialState = {
 const globalMiddleware = store => next => action => {
   switch (action.type) {
     case "loggedIn":
-      globalActions.loggedIn(action.user.pk);
+      globalActions.loggedIn();
       break;
     case "goBack":
       globalActions.goBack();

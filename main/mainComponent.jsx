@@ -6,18 +6,18 @@ import {isMobile} from '../util.jsx'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const mapStateToProps = (state, props) => {
-  let loggedInUserID = null, loggedInUserName = null;
-  if (state.loggedInUser) {
-    loggedInUserID = state.loggedInUser.pk;
-    loggedInUserName = state.loggedInUser.username;
+  let loggedInUserName = null;
+  if (state.username) {
+    loggedInUserName = state.username;
   }
   return {
     menuOpened: state.menuOpened,
     loginDialogOpened: state.loginDialogOpened,
+    registerDialogOpened: state.registerDialogOpened,
     selectedCategoryID: state.selectedCategoryID,
     categories: state.categories,
     title: state.title,
-    loggedInUserID, loggedInUserName,
+    loggedInUserName,
     isRoot: state.isRoot,
   };
 }

@@ -70,3 +70,9 @@ export function getPrePageState() {
   window.__PRELOADED_PAGE_STATE__ = null;
   return preloadedState;
 }
+
+export function getAuthHeader() {
+  return {
+    Authorization: "Bearer " + sessionStorage.getItem("token")
+  }
+}

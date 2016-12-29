@@ -2,6 +2,7 @@ import {Observable } from 'rxjs'
 import actions from './postActions.jsx'
 import {mainActions} from '../globalRedux.jsx'
 import config from '../config.jsx'
+import {getAuthHeader} from '../util.jsx'
 var ajax = Observable.ajax
 
 const epics = {
@@ -24,12 +25,15 @@ const epics = {
     let ajax$ = submit$.mergeMap(action => {
       let repliableID = action.repliableID;
       let text = store.getState().comments[repliableID];
-      let writerID = store.getState().loggedInUserID;
-      return ajax.post(config.url + 'reply/', {
-        to: repliableID,
-        content: text,
-        writerID
-      }).map(() => actions.submittedComment(repliableID));
+      //let writerID = store.getState().loggedInUserID;TODO
+      return ajax.post( 
+        config.url + 'reply/', {
+          to: repliableID,
+          content: text,
+          //writerID TODO
+        }, 
+        getAuthHeader()
+      ).map(() => actions.submittedComment(repliableID));
     });
 
     return Observable.merge(state$, ajax$);

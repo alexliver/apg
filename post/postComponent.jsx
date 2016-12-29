@@ -27,9 +27,9 @@ class PostComponent extends React.Component {
             title={title} content={content} />
         {this.props.replies.map(function(reply, i){
           return <ReplyComponent data={reply} onCommentChange={me.onCommentChange.bind(me)} 
-            onCommentSubmit={me.onCommentSubmit.bind(me)} loggedInUserID= {me.props.loggedInUserID} />;
+            onCommentSubmit={me.onCommentSubmit.bind(me)} loggedIn= {me.props.loggedIn} />;
         })} 
-        { this.props.loggedInUserID ? <CommentComponent 
+        { this.props.loggedIn ? <CommentComponent 
           toID={this.props.postID} 
           onChange={this.onCommentChange.bind(this)} 
           onSubmit={this.onCommentSubmit.bind(this)} 
@@ -67,7 +67,7 @@ const mapStateToProps = (state, props) => {
     writerName: writerName,
     writerEmail: writerEmail,
     writerAvatarURL,
-    loggedInUserID: state.loggedInUserID,
+    loggedIn: state.loggedIn,
     replies: state.replies
   }
 }

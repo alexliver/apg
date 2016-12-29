@@ -10,10 +10,26 @@ const epics = {
     let ajax$ = login$.mergeMap(action => {
       let username = action.username;
       let password = action.password;
-      return ajax.post(config.url + 'login/', {
+      return ajax.post(config.url + 'o/token/', {
+        username, password,grant_type:"password", client_id: config.client_id, client_secret: config.client_secret
+      }).map(res=>res.response).mergeMap(res => {
+        sessionStorage.setItem("token", res.access_token);
+        return Observable.from([actions.loggedIn(res.access_token, res.refresh_token, username), actions.hideLoginDialog()])
+      });
+    });
+
+    return Observable.merge(state$, ajax$);
+  },
+  register: (action$) => {
+    let login$ = action$.ofType('register');
+    let state$ = login$.map(action => actions.registering());
+    let ajax$ = login$.mergeMap(action => {
+      let username = action.username;
+      let password = action.password;
+      return ajax.post(config.url + 'sign_up/', {
         username, password
       }).map(res=>res.response).mergeMap(res => 
-        Observable.from([actions.loggedIn(res.token, res.user), actions.hideLoginDialog()])
+        Observable.from([actions.registered(res.username), actions.hideRegisterDialog()])
       );
     });
 

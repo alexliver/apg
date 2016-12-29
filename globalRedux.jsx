@@ -7,6 +7,13 @@ export function setMainStore(store) {
   mainStore = store;
 }
 
+function isLoggedIn() {
+  if (!mainStore) return false;
+  if (mainStore.getState().token)
+    return true;
+  return false;
+}
+
 export const mainActions = {
   changeCategory: (categoryID) => ({type:'changeCategory', categoryID}),
   setIsRoot: (isRoot) => ({type: 'setIsRoot', isRoot}),
@@ -30,6 +37,8 @@ const globalMiddleware = store => next => action => {
 
 const stores = []
 export function globalCreateStore(initialState, reducer, epic) {
+  if (!initialState) initialState = {};
+  initialState.loggedIn = isLoggedIn();
   var epicMiddleware = createEpicMiddleware(epic);
   var finalCreateStore = applyMiddleware(globalMiddleware)(createStore);
   finalCreateStore = applyMiddleware(epicMiddleware)(finalCreateStore);
@@ -40,10 +49,9 @@ export function globalCreateStore(initialState, reducer, epic) {
 }
 
 const actions = {
-  loggedIn: function(loggedInUserID) {
+  loggedIn: function() {
     return {
       type: 'loggedIn',
-      loggedInUserID: loggedInUserID
     };
   },
 
@@ -53,9 +61,9 @@ const actions = {
 };
 
 export const globalActions = {
-  loggedIn: function(loggedInUserID) {
+  loggedIn: function() {
     stores.forEach(store => {
-      store.dispatch(actions.loggedIn(loggedInUserID));
+      store.dispatch(actions.loggedIn());
     });
   },
 
