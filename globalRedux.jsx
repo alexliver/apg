@@ -1,17 +1,11 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import { browserHistory} from 'react-router'
+import {hasToken} from "./util.jsx"
 
 let mainStore = null;
 export function setMainStore(store) {
   mainStore = store;
-}
-
-function isLoggedIn() {
-  if (!mainStore) return false;
-  if (mainStore.getState().token)
-    return true;
-  return false;
 }
 
 export const mainActions = {
@@ -38,7 +32,7 @@ const globalMiddleware = store => next => action => {
 const stores = []
 export function globalCreateStore(initialState, reducer, epic) {
   if (!initialState) initialState = {};
-  initialState.loggedIn = isLoggedIn();
+  initialState.loggedIn = hasToken();
   var epicMiddleware = createEpicMiddleware(epic);
   var finalCreateStore = applyMiddleware(globalMiddleware)(createStore);
   finalCreateStore = applyMiddleware(epicMiddleware)(finalCreateStore);

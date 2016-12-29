@@ -76,3 +76,24 @@ export function getAuthHeader() {
     Authorization: "Bearer " + sessionStorage.getItem("token")
   }
 }
+
+export function hasToken() {
+  if (!window.sessionStorage) return false;
+  if (sessionStorage.getItem('token'))
+    return true;
+  return false;
+}
+
+export function getUserName() {
+  if (!window.sessionStorage) return null;
+  if (sessionStorage.getItem('username'))
+    return sessionStorage.getItem('username');
+  return null;
+}
+
+export function getUserToken() {
+  if (!window.sessionStorage) return null;
+  if (sessionStorage.getItem('token'))
+    return sessionStorage.getItem('token');
+  return null;
+}

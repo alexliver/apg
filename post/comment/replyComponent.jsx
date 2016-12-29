@@ -34,11 +34,14 @@ class ReplyComponent extends React.Component {
     let avatar = <Avatar>{writer.username[0]}</Avatar>;
     if (writer.avatar)
       avatar = writer.avatar.image;
+    let title = 'pleb';
+    if (writer.is_superuser)
+      title="the supreme leader";
     return (
-      <div>
+      <div style={{paddingLeft: '5px'}}>
         <CardHeader
           title={writer.username}
-          subtitle="pleb"
+          subtitle={title}
           avatar={avatar}
         />
         <CardText>{state.content}</CardText>
