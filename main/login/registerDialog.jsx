@@ -109,7 +109,7 @@ export default class RegisterDialog extends React.Component {
         />
         <TextField
           hintText="Confirm Password"
-          type="Confirm password"
+          type="password"
           floatingLabelText="repeat password"
           value={this.state.confirmPassword}
           onChange={this.updateConfirmPassword.bind(this)}

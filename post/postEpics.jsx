@@ -25,15 +25,16 @@ const epics = {
     let ajax$ = submit$.mergeMap(action => {
       let repliableID = action.repliableID;
       let text = store.getState().comments[repliableID];
-      //let writerID = store.getState().loggedInUserID;TODO
       return ajax.post( 
         config.url + 'reply/', {
           to: repliableID,
           content: text,
-          //writerID TODO
         }, 
         getAuthHeader()
-      ).map(() => actions.submittedComment(repliableID));
+      ).mergeMap(() => Observable.from([
+        actions.submittedComment(repliableID, text),
+        actions.loadPost(store.getState().post.pk)
+      ]));
     });
 
     return Observable.merge(state$, ajax$);

@@ -29,7 +29,8 @@ const epics = {
       return ajax.post(config.url + 'sign_up/', {
         username, password
       }).map(res=>res.response).mergeMap(res => 
-        Observable.from([actions.registered(res.username), actions.hideRegisterDialog()])
+        Observable.from([actions.registered(res.username), actions.hideRegisterDialog(), 
+          actions.login(username, password)])
       );
     });
 
