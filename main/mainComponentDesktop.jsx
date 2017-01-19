@@ -13,6 +13,7 @@ import actions from './mainActions.jsx'
 import FlatButton from 'material-ui/FlatButton';
 import { browserHistory} from 'react-router'
 import LoginDialog from './login/loginDialog.jsx'
+import RegisterDialog from './login/registerDialog.jsx'
 
 
 export default class ToolbarExamplesSimple extends React.Component {
@@ -37,8 +38,36 @@ export default class ToolbarExamplesSimple extends React.Component {
     this.props.dispatch(actions.hideLoginDialog());
   }
 
+  onRegister(username, password) {
+    this.props.dispatch(actions.register(username, password));
+  }
+
+  onOpenRegisterDialog() {
+    this.props.dispatch(actions.openRegisterDialog());
+  }
+
+  hideRegisterDialog() {
+    this.props.dispatch(actions.hideRegisterDialog());
+  }
+
+  onLogout() {
+    this.props.dispatch(actions.logout());
+  }
+
   render() {
     const me = this;
+    let menuItems;
+    if (this.props.loggedInUserName) {
+      menuItems = [
+        <MenuItem>Hello, {this.props.loggedInUserName}</MenuItem>,
+        <MenuItem primaryText="Log out" onTouchTap={me.onLogout.bind(me)}></MenuItem>,
+      ]
+    } else { 
+      menuItems = [
+        <MenuItem primaryText="Login" onTouchTap={me.onOpenLoginDialog.bind(me)} />,
+        <MenuItem primaryText="Register" onTouchTap={me.onOpenRegisterDialog.bind(me)} />
+      ];
+    }
     return (
       <Paper>
         <Toolbar>
@@ -58,7 +87,7 @@ export default class ToolbarExamplesSimple extends React.Component {
                 </IconButton>
               }
             >
-              <MenuItem primaryText="Login" onTouchTap={me.onOpenLoginDialog.bind(me)} />
+              {menuItems}
             </IconMenu>
           </ToolbarGroup>
         </Toolbar>
@@ -66,6 +95,8 @@ export default class ToolbarExamplesSimple extends React.Component {
           {this.props.children || <CategoryView categoryID={1} />}
         </div>
         <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} />
+        <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 
+            onCancel={this.hideRegisterDialog.bind(this)} />
       </Paper>
     );
   }

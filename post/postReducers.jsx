@@ -24,6 +24,8 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {submittingComments: newSubmittingComments2});
     case 'loggedIn':
       return Object.assign({}, state, {loggedIn: true});
+    case 'loggedOut':
+      return Object.assign({}, state, {loggedIn: false});
   }
   return state;
 }

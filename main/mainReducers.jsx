@@ -20,6 +20,8 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {selectedCategoryID: action.categoryID});
     case "setIsRoot" :
       return Object.assign({}, state, {isRoot: action.isRoot});
+    case "loggedOut" :
+      return Object.assign({}, state, {token: null, username: null});
   }
   return state;
 }

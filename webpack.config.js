@@ -1,4 +1,6 @@
-module.exports = {
+var webpack = require('webpack');
+
+var config = {
   entry: './index.jsx',
   devtool: 'source-map',
   debug: true,
@@ -17,6 +19,18 @@ module.exports = {
   output: {
     path: './dist',
     filename: 'index.bundle.js'
-  }
+  },
+
+  /*
+   plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        compress: {
+          warnings: false
+        }
+      })
+    ]
+  */
 };
 
+module.exports = config;

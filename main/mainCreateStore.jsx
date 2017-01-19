@@ -21,6 +21,9 @@ const globalMiddleware = store => next => action => {
     case "loggedIn":
       globalActions.loggedIn();
       break;
+    case "loggedOut":
+      globalActions.loggedOut();
+      break;
     case "goBack":
       globalActions.goBack();
       break;

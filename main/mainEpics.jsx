@@ -41,7 +41,13 @@ const epics = {
     return action$.ofType('loadCategories').filter(action => store.getState().categories.length == 0).mergeMap(action => {
       return ajax.getJSON(config.url + 'category/').map(json => actions.loadedCategories(json));
     });
-  }
+  },
+  
+  logout: (action$) => action$.ofType('logout').map(action => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("username");
+    return actions.loggedOut();
+  }),
 };
 
 export default function (action$, store) {
