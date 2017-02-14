@@ -1,6 +1,7 @@
 import {Observable } from 'rxjs'
 import actions from './mainActions.jsx'
 import config from '../config.jsx'
+import {getAPIUrl} from '../util.jsx'
 var ajax = Observable.ajax
 
 const epics = {
@@ -10,7 +11,7 @@ const epics = {
     let ajax$ = login$.mergeMap(action => {
       let username = action.username;
       let password = action.password;
-      return ajax.post(config.url + 'o/token/', {
+      return ajax.post(getAPIUrl() + 'o/token/', {
         username, password,grant_type:"password", client_id: config.client_id, client_secret: config.client_secret
       }).map(res=>res.response).mergeMap(res => {
         sessionStorage.setItem("token", res.access_token);
@@ -27,7 +28,7 @@ const epics = {
     let ajax$ = login$.mergeMap(action => {
       let username = action.username;
       let password = action.password;
-      return ajax.post(config.url + 'sign_up/', {
+      return ajax.post(getAPIUrl() + 'sign_up/', {
         username, password
       }).map(res=>res.response).mergeMap(res => 
         Observable.from([actions.registered(res.username), actions.hideRegisterDialog(), 
@@ -39,7 +40,7 @@ const epics = {
   },
   loadCategories: (action$, store) => {
     return action$.ofType('loadCategories').filter(action => store.getState().categories.length == 0).mergeMap(action => {
-      return ajax.getJSON(config.url + 'category/').map(json => actions.loadedCategories(json));
+      return ajax.getJSON(getAPIUrl() + 'category/').map(json => actions.loadedCategories(json));
     });
   },
   

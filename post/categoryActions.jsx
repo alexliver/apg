@@ -1,5 +1,6 @@
 import {Observable } from 'rxjs'
 import config from '../config.jsx'
+import {getAPIUrl} from '../util.jsx'
 var ajax = Observable.ajax
 
 const epics = {
@@ -8,7 +9,7 @@ const epics = {
       //console.log(store.getState().categoryID);
       return Observable.merge(
         Observable.from([actions.setCategoryID(action.id), actions.loadedCategory([])]),
-        ajax.getJSON(config.url + 'categoryPostList/' + action.id + '/').map(res => actions.loadedCategory(res))
+        ajax.getJSON(getAPIUrl() + 'categoryPostList/' + action.id + '/').map(res => actions.loadedCategory(res))
       );
     });
   },
