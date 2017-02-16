@@ -9,7 +9,8 @@ export default class PostContentComponent extends React.Component {
       <Card>
         <CardHeader title={me.props.writerName} subtitle={me.props.writerTitle} avatar={me.props.writerAvatarURL} />
         <CardTitle title={me.props.title}/>
-        <CardText>{me.props.content}</CardText>
+        <CardText dangerouslySetInnerHTML={{__html: me.props.content}}>
+        </CardText>
       </Card>
     )
   }
