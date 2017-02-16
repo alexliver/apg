@@ -3,7 +3,7 @@ require('babel-core/register')({
 });
 global.navigator = { userAgent: 'all' };
 global.window = {};
-var http = require('http'),
+var https = require('https'),
     browserify = require('browserify'),
     literalify = require('literalify'),
     React = require('react'),
@@ -20,10 +20,14 @@ var setUserAgent = require('./util.jsx').setUserAgent;
 var getGlobalState = require('./util.jsx').getGlobalState;
 var getPageState = require('./util.jsx').getPageState;
 
+var options = {
+  key  : fs.readFileSync('server.key'),
+  cert : fs.readFileSync('server.crt')
+};
 // Just create a plain old HTTP server that responds to two endpoints ('/' and
 // '/bundle.js') This would obviously work similarly with any higher level
 // library (Express, etc)
-http.createServer(function(req, res) {
+https.createServer(options, function(req, res) {
   if (req.url == "/dist/index.bundle.js" ) {
     res.setHeader('Content-Type', 'text/javascript')
 
