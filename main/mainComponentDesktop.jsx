@@ -26,6 +26,11 @@ export default class ToolbarExamplesSimple extends React.Component {
     browserHistory.push(`/category/${categoryID}`);
   }
 
+  clickAbout() {
+    this.props.dispatch(actions.goToAboutPage());
+    browserHistory.push(`/about/`);
+  }
+
   onLogin(username, password) {
     this.props.dispatch(actions.login(username, password));
   }
@@ -72,12 +77,18 @@ export default class ToolbarExamplesSimple extends React.Component {
       <Paper>
         <Toolbar>
           <ToolbarGroup firstChild={true}>
-            {this.props.categories.map(category => 
+            {[...this.props.categories.map(category => 
             <FlatButton
               label={category.name}
               primary={category.pk == me.props.selectedCategoryID}
               onTouchTap={() => me.clickCategory(category.pk)}
-            />)}
+            />),
+            <FlatButton
+              label='About'
+              primary={me.props.isInAboutPage}
+              onTouchTap={() => me.clickAbout()}
+            />
+            ]}
           </ToolbarGroup>
           <ToolbarGroup>
             <IconMenu
@@ -91,8 +102,7 @@ export default class ToolbarExamplesSimple extends React.Component {
             </IconMenu>
           </ToolbarGroup>
         </Toolbar>
-        <div style={{maxWidth: '800px', margin: 'auto'}}>
-          {this.props.children || <CategoryView categoryID={1} />}
+        <div style={{maxWidth: '800px', margin: 'auto'}}> {this.props.children || <CategoryView categoryID={1} />}
         </div>
         <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} />
         <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 

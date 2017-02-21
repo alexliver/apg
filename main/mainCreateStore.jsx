@@ -11,6 +11,7 @@ const initialState = {
   registerDialogOpened: false,
   token: null,
   selectedCategoryID: 1,
+  isInAboutPage: false,
   categories: [],
   title: '',
   isRoot: true

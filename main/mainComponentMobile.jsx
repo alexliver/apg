@@ -17,6 +17,7 @@ import IconMusicVideo from 'material-ui/svg-icons/av/music-video';
 import IconCode from 'material-ui/svg-icons/action/code';
 import IconRestore from 'material-ui/svg-icons/action/restore';
 import IconArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import IconInfo from 'material-ui/svg-icons/action/info';
 
 
 const getCategoryIcon = (iconType) => {
@@ -26,6 +27,8 @@ const getCategoryIcon = (iconType) => {
       return <IconMusicVideo />;
     case "programming": 
       return <IconCode />;
+    case "about": 
+      return <IconInfo />;
     default:
       return <IconRestore />;
   }
@@ -81,12 +84,19 @@ export default class MainComponent extends React.Component {
     browserHistory.push(`/category/${categoryID}`);
   }
 
+  clickAbout() {
+    this.props.dispatch(actions.goToAboutPage());
+    browserHistory.push(`/about/`);
+  }
+
   clickBack() {
     //hashHistory.goBack();
     this.props.dispatch(actions.goBack());
   }
 
-  getCategoryIndex() {
+  getButtonTabIndex() {
+    if (this.props.isInAboutPage)
+      return this.props.categories.length;
     return this.props.categories.findIndex((category) => category.pk == this.props.selectedCategoryID);
   }
 
@@ -94,6 +104,7 @@ export default class MainComponent extends React.Component {
     const category = this.props.categories.find((category) => category.pk == this.props.selectedCategoryID);
     if (category)
       return category.name;
+    return "About";
   }
 
   render () {
@@ -121,13 +132,19 @@ export default class MainComponent extends React.Component {
           <div style={{flex: "1 1 auto", 'overflowY': 'auto'}}>
             {this.props.children || <CategoryView categoryID={1} />}
           </div>
-          <BottomNavigation selectedIndex={this.getCategoryIndex()} style={{flex: "0 0 auto"}}>
-            {this.props.categories.map(category => 
-            <BottomNavigationItem
-              label={category.name}
-              icon={getCategoryIcon(category.iconType)}
-              onTouchTap={() => me.clickCategory(category.pk)}
-            />)}
+          <BottomNavigation selectedIndex={this.getButtonTabIndex()} style={{flex: "0 0 auto"}}>
+            {[...this.props.categories.map(category => 
+              <BottomNavigationItem
+                label={category.name}
+                icon={getCategoryIcon(category.iconType)}
+                onTouchTap={() => me.clickCategory(category.pk)}
+              />), 
+              <BottomNavigationItem
+                label='About'
+                icon={getCategoryIcon("about")}
+                onTouchTap={() => me.clickAbout()}
+              />, 
+            ]}
           </BottomNavigation>
         </Paper>
         <Drawer open={this.props.menuOpened} docked={false} onRequestChange={this.hangleMenuChange.bind(this)} openSecondary={true}>

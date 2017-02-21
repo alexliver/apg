@@ -23,6 +23,7 @@ const actions = {
 
   logout: () => ({type: 'logout'}),
   loggedOut: () => ({type: 'loggedOut'}),
+
 };
 
 export default Object.assign({}, actions, mainActions);

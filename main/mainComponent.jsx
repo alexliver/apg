@@ -19,6 +19,7 @@ const mapStateToProps = (state, props) => {
     title: state.title,
     loggedInUserName,
     isRoot: state.isRoot,
+    isInAboutPage: state.isInAboutPage,
   };
 }
 

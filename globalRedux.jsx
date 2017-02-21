@@ -12,12 +12,14 @@ export const mainActions = {
   changeCategory: (categoryID) => ({type:'changeCategory', categoryID}),
   setIsRoot: (isRoot) => ({type: 'setIsRoot', isRoot}),
   loadURL: url => ({type: 'loadURL', url}),
+  goToAboutPage: () => ({type:'goToAboutPage'}),
 }
 
 const globalMiddleware = store => next => action => {
   switch (action.type) {
     case "changeCategory":
     case "setIsRoot":
+    case "goToAboutPage":
       mainStore.dispatch(action);
       break;
     case 'loadURL':
@@ -33,9 +35,11 @@ const stores = []
 export function globalCreateStore(initialState, reducer, epic) {
   if (!initialState) initialState = {};
   initialState.loggedIn = hasToken();
-  var epicMiddleware = createEpicMiddleware(epic);
   var finalCreateStore = applyMiddleware(globalMiddleware)(createStore);
-  finalCreateStore = applyMiddleware(epicMiddleware)(finalCreateStore);
+  if (epic) {
+    var epicMiddleware = createEpicMiddleware(epic);
+    finalCreateStore = applyMiddleware(epicMiddleware)(finalCreateStore);
+  }
   var store = finalCreateStore(reducer, initialState);
 
   stores.push(store);

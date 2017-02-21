@@ -17,7 +17,9 @@ export default function reducer(state, action) {
     case "loadedCategories":
       return Object.assign({}, state, {categories: action.categories});
     case "changeCategory":
-      return Object.assign({}, state, {selectedCategoryID: action.categoryID});
+      return Object.assign({}, state, {selectedCategoryID: action.categoryID, isInAboutPage: false});
+    case "goToAboutPage":
+      return Object.assign({}, state, {selectedCategoryID: null, isInAboutPage: true});
     case "setIsRoot" :
       return Object.assign({}, state, {isRoot: action.isRoot});
     case "loggedOut" :
