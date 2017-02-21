@@ -3,7 +3,8 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 
 export default class PostContentComponent extends React.Component {
   getCreatedAt() {
-    return this.props.created_at.split('T')[0];
+    if (this.props.created_at)
+      return this.props.created_at.split('T')[0];
   }
 
   render () {
