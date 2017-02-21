@@ -29,8 +29,11 @@ export function getGlobalState(url) {
 
 export function getPageState(url) {
   let splitted = url.split('/');
-  if (splitted[1] == 'category') {
-    const categoryID = parseInt(splitted[2]);
+  debugger;
+  if (splitted[1] == 'category' || splitted[1] == '') {
+    let categoryID = 1;
+    if (splitted[1] == 'category')
+      categoryID = parseInt(splitted[2]);
     return fetch(`${config.url}categoryPostList/${categoryID}/`)
     .then(function(response) {
       return response.json();
