@@ -34,7 +34,7 @@ class CategoryComponent extends React.Component {
       <div>
         {me.props.posts.map(post => [
           <PostContentComponent writerName={post.writer.username} writerTitle="The Supreme Leader" writerAvatarURL={post.writer.avatar.image}
-              title={post.title} content={post.content} />,
+              title={post.title} content={post.content} created_at={post.created_at} />,
           <Link to={`/post/${post.pk}`}>Show comments</Link>
         ])}
       </div>

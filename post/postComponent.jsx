@@ -19,12 +19,12 @@ class PostComponent extends React.Component {
 
   render () {
     const me = this;
-    var { content, title, loaded , writerName, writerEmail} = this.props
+    var { content, title, loaded , writerName, writerEmail, created_at} = this.props
 
     return (
       <div>
         <PostContentComponent writerName={writerName} writerTitle="The Supreme Leader" writerAvatarURL={this.props.writerAvatarURL}
-            title={title} content={content} />
+            title={title} content={content} created_at={created_at} />
         {this.props.replies.map(function(reply, i){
           return <ReplyComponent data={reply} onCommentChange={me.onCommentChange.bind(me)} 
             onCommentSubmit={me.onCommentSubmit.bind(me)} loggedIn= {me.props.loggedIn} />;
@@ -55,7 +55,6 @@ const mapStateToProps = (state, props) => {
   var writerAvatarURL = "#";
   if (writer) {
     writerName = writer.username;
-    writerEmail = writer.email;
     if (writer.avatar)
       writerAvatarURL = writer.avatar.image;
   }
@@ -63,9 +62,9 @@ const mapStateToProps = (state, props) => {
   return {
     title: post.title,
     content: post.content,
+    created_at: post.created_at,
     loaded: state.loaded,
     writerName: writerName,
-    writerEmail: writerEmail,
     writerAvatarURL,
     loggedIn: state.loggedIn,
     replies: state.replies
