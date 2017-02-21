@@ -36,14 +36,33 @@ class AboutComponent extends React.Component {
         <p>
           Stuff used when creating this website:
           <ul>
-            <li>React JS</li>
-            <li>Redux</li>
-            <li>Material UI</li>
-            <li>Material Icons</li>
-            <li>Webpack</li>
-            <li>Node JS</li>
-            <li>Django</li>
-            <li>Django Rest Framework</li>
+            <li><a target="_blank" href="https://facebook.github.io/react/">
+              React JS
+            </a></li>
+            <li><a target="_blank" href="http://redux.js.org/">
+              Redux
+            </a></li>
+            <li><a target="_blank" href="http://www.material-ui.com/">
+              Material UI
+            </a></li>
+            <li><a target="_blank" href="https://material.io/icons/">
+              Material Icons
+            </a></li>
+            <li><a target="_blank" href="https://webpack.github.io/">
+              Webpack
+            </a></li>
+            <li><a target="_blank" href="https://nodejs.org/">
+              Node JS
+            </a></li>
+            <li><a target="_blank" href="https://www.djangoproject.com/">
+              Django
+            </a></li>
+            <li><a target="_blank" href="http://www.django-rest-framework.org/">
+              Django Rest Framework
+            </a></li>
+            <li><a target="_blank" href="https://www.nginx.com/">
+              Nginx
+            </a></li>
           </ul>
           <a target="_blank" href="https://github.com/alexliver/apg">Source codes</a>
         </p>
