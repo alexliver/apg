@@ -2,7 +2,7 @@ import {Observable } from 'rxjs'
 import actions from './postActions.jsx'
 import {mainActions} from '../globalRedux.jsx'
 import config from '../config.jsx'
-import {getAuthHeader} from '../util.jsx'
+import {getAuthHeader, getAPIUrl} from '../util.jsx'
 var ajax = Observable.ajax
 
 const epics = {
@@ -10,7 +10,7 @@ const epics = {
     return  action$.filter(function(action) {
       return action.type === 'loadPost' && action.id;
     }).mergeMap(function(action) {
-      return ajax.getJSON(config.url + 'post/' + action.id + '/')
+      return ajax.getJSON(getAPIUrl() + 'post/' + action.id + '/')
         .mergeMap(res => Observable.from([ 
           actions.loadedPost(res) , 
           mainActions.changeCategory(res.category.pk) 
@@ -26,7 +26,7 @@ const epics = {
       let repliableID = action.repliableID;
       let text = store.getState().comments[repliableID];
       return ajax.post( 
-        config.url + 'reply/', {
+        getAPIUrl() + 'reply/', {
           to: repliableID,
           content: text,
         }, 

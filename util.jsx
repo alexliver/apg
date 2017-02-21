@@ -18,7 +18,7 @@ export const isMobile = () => {
 }
 
 export function getGlobalState(url) {
-  return fetch(config.url + 'category/')
+  return fetch(getAPIUrl() + 'category/')
   .then(function(response) {
     return response.json();
   }).then(function(body) {
@@ -29,12 +29,11 @@ export function getGlobalState(url) {
 
 export function getPageState(url) {
   let splitted = url.split('/');
-  debugger;
   if (splitted[1] == 'category' || splitted[1] == '') {
     let categoryID = 1;
     if (splitted[1] == 'category')
       categoryID = parseInt(splitted[2]);
-    return fetch(`${config.url}categoryPostList/${categoryID}/`)
+    return fetch(`${getAPIUrl()}categoryPostList/${categoryID}/`)
     .then(function(response) {
       return response.json();
     }).then(function(body) {
@@ -45,7 +44,7 @@ export function getPageState(url) {
     }));
   } else if (splitted[1] == 'post') {
     const postID = parseInt(splitted[2]);
-    return fetch(`${config.url}post/${postID}/`)
+    return fetch(`${getAPIUrl()}post/${postID}/`)
     .then(function(response) {
       return response.json();
     }).then(function(body) {
@@ -100,3 +99,18 @@ export function getUserToken() {
     return sessionStorage.getItem('token');
   return null;
 }
+
+export function isNode() {
+  if (!window) return true;
+  if (!window.sessionStorage) return true;
+  return false;
+}
+
+export function getAPIUrl() {
+  let url = config.url;
+  if (isNode())
+    url = config.inner_url;
+  console.log(url);
+  return url;
+}
+
