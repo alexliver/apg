@@ -20,7 +20,8 @@ const globalMiddleware = store => next => action => {
     case "changeCategory":
     case "setIsRoot":
     case "goToAboutPage":
-      mainStore.dispatch(action);
+      if (mainStore)
+        mainStore.dispatch(action);
       break;
     case 'loadURL':
       browserHistory.push(action.url);
