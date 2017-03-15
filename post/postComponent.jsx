@@ -9,6 +9,7 @@ import CommentComponent from './comment/commentComponent.jsx'
 import ReplyComponent from './comment/replyComponent.jsx'
 import PostContentComponent from './postContentComponent.jsx'
 import {mainActions} from '../globalRedux.jsx'
+import {getUserTitle, getUserAvatar} from './postUtil.jsx'
 
 class PostComponent extends React.Component {
   componentDidMount() {
@@ -19,11 +20,11 @@ class PostComponent extends React.Component {
 
   render () {
     const me = this;
-    var { content, title, loaded , writerName, writerEmail, created_at} = this.props
+    var { content, title, loaded , writerName, writerEmail, created_at, writerTitle} = this.props
 
     return (
       <div>
-        <PostContentComponent writerName={writerName} writerTitle="The Supreme Leader" writerAvatarURL={this.props.writerAvatarURL}
+        <PostContentComponent writerName={writerName} writerTitle={writerTitle} writerAvatarURL={this.props.writerAvatarURL}
             title={title} content={content} created_at={created_at} />
         {this.props.replies.map(function(reply, i){
           return <ReplyComponent data={reply} onCommentChange={me.onCommentChange.bind(me)} 
@@ -53,10 +54,11 @@ const mapStateToProps = (state, props) => {
   var writerName = "N/A";
   var writerEmail = "N/A";
   var writerAvatarURL = "#";
+  let writerTitle = "";
   if (writer) {
     writerName = writer.username;
-    if (writer.avatar)
-      writerAvatarURL = writer.avatar.image;
+    writerAvatarURL = getUserAvatar(writer);
+    writerTitle = getUserTitle(writer);
   }
 
   return {
@@ -67,7 +69,8 @@ const mapStateToProps = (state, props) => {
     writerName: writerName,
     writerAvatarURL,
     loggedIn: state.loggedIn,
-    replies: state.replies
+    replies: state.replies,
+    writerTitle,
   }
 }
 

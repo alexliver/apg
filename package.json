@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "start": "webpack --progress && babel-node server.js"
+    "start": "webpack --progress && babel-node server.js",
+    "test": "jest"
   },
   "author": "alexyin",
   "license": "ISC",

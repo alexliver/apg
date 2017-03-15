@@ -2,13 +2,14 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import CommentComponent from './commentComponent.jsx'
 import Avatar from 'material-ui/Avatar';
+import {getUserTitle, getUserAvatar} from '../postUtil.jsx'
 
 class ReplyComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, props.data, {
       loggedIn: props.loggedIn,
-      commentShow: false
+      commentShow: props.commentShow
     });
   }
 
@@ -31,18 +32,12 @@ class ReplyComponent extends React.Component {
   render () {
     let state = this.state;
     let writer = state.writer?state.writer:{};
-    let avatar = <Avatar>{writer.username[0]}</Avatar>;
-    if (writer.avatar)
-      avatar = writer.avatar.image;
-    let title = 'pleb';
-    if (writer.is_superuser)
-      title="the supreme leader";
     return (
       <div style={{paddingLeft: '5px'}}>
         <CardHeader
           title={writer.username}
-          subtitle={title}
-          avatar={avatar}
+          subtitle={getUserTitle(writer)}
+          avatar={getUserAvatar(writer)}
         />
         <CardText>{state.content}</CardText>
         {state.loggedIn?  [

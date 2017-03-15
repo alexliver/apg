@@ -37,7 +37,11 @@ it('loads post', () => {
   const post = {
     replies: [{
       writer: {
-        username: 'test_reply_writer'
+        username: 'test_reply_writer',
+        is_superuser: true,
+        avatar: {
+          image: 'http://image-url.com'
+        }
       }, 
       content: 'test_reply_content',
       replies: []
@@ -58,6 +62,8 @@ it('loads post', () => {
   expect(html.indexOf('test_writer')).toBeGreaterThan(-1);
   expect(html.indexOf('test_reply_writer')).toBeGreaterThan(-1);
   expect(html.indexOf('test_reply_content')).toBeGreaterThan(-1);
+  expect(html.indexOf('the supreme leader')).toBeGreaterThan(-1);
+  expect(html.indexOf('http://image-url.com')).toBeGreaterThan(-1);
   expect(html.indexOf('test_writeraaaaa')).toEqual(-1);
 });
 
@@ -85,8 +91,12 @@ it('replies to post', () => {
 
   globalActions.loggedIn();
   const commentComponent = postView.find('CommentComponent');
-  commentComponent.prop('onChange')(1, 'test_reply');
-  commentComponent.prop('onSubmit')(1);
+  const commentText = commentComponent.find('TextField');
+  commentText.prop('onChange')({
+    target: {value: 'test_reply'}
+  });
+  const commentSubmitButton = commentComponent.find('RaisedButton');
+  commentSubmitButton.prop('onClick')();
   expect(requests).toHaveLength(2);
 
   expect(requests[1].requestBody.indexOf('test_reply')).toBeGreaterThan(-1);

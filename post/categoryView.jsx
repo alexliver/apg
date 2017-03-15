@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { Link} from 'react-router'
 import { browserHistory} from 'react-router'
 import {getPrePageState} from '../util.jsx'
+import {getUserTitle, getUserAvatar} from './postUtil.jsx'
 
 
 let store = null;
@@ -33,7 +34,8 @@ class CategoryComponent extends React.Component {
     return (
       <div>
         {me.props.posts.map(post => [
-          <PostContentComponent writerName={post.writer.username} writerTitle="The Supreme Leader" writerAvatarURL={post.writer.avatar.image}
+          <PostContentComponent writerName={post.writer.username} writerTitle={getUserTitle(post.writer)}
+              writerAvatarURL={getUserAvatar(post.writer)}
               title={post.title} content={post.content} created_at={post.created_at} />,
           <Link to={`/post/${post.pk}`}>Show comments</Link>
         ])}
