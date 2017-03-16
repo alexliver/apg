@@ -9,12 +9,22 @@ export default class LoginDialog extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      loginError: props.loginError?props.loginError:''
     };
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      loginError: props.loginError?props.loginError:''
+    });
   }
 
   onLogin() {
     this.props.onLogin(this.state.username, this.state.password);
+    this.setState({
+      loginError: ""
+    });
   }
 
   onCancel() {
@@ -30,6 +40,12 @@ export default class LoginDialog extends React.Component {
   updatePassword(e) {
     this.setState({
       password: e.target.value
+    });
+  }
+
+  updateLoginError(error) {
+    this.setState({
+      loginError: error
     });
   }
 
@@ -70,6 +86,7 @@ export default class LoginDialog extends React.Component {
           value={this.state.password}
           onChange={this.updatePassword.bind(this)}
         />
+        <span >{this.state.loginError}</span>
       </Dialog>
     );
   }

@@ -14,6 +14,8 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {registerDialogOpened: false});
     case "loggedIn":
       return Object.assign({}, state, {token: action.access_token, username: action.username });
+    case "loginFail":
+      return Object.assign({}, state, {loginFail: true});
     case "loadedCategories":
       return Object.assign({}, state, {categories: action.categories});
     case "changeCategory":

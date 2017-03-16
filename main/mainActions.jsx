@@ -6,6 +6,7 @@ const actions = {
   login: (username, password) => ({type: 'login', username, password}),
   loggingIn: () => ({type: 'loggingIn'}),
   loggedIn: (access_token, refresh_token, username) => ({type: 'loggedIn', access_token, refresh_token, username}),
+  loginFail: () => ({type: 'loginFail'}),
 
   register: (username, password) => ({type: 'register', username, password}),
   registering: () => ({type: 'registering'}),

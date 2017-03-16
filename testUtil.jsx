@@ -6,4 +6,7 @@ export function mockSessionStorage() {
     storage[key] = val;
   };
   global.sessionStorage.getItem = (key) => storage[key];
+  global.sessionStorage.removeItem = (key) => {
+    storage[key] = null;
+  };
 }

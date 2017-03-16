@@ -31,6 +31,10 @@ export default class ToolbarExamplesSimple extends React.Component {
     browserHistory.push(`/about/`);
   }
 
+  toggleMenu() {
+    this.props.dispatch(actions.toggleMenu());
+  }
+
   onLogin(username, password) {
     this.props.dispatch(actions.login(username, password));
   }
@@ -69,9 +73,23 @@ export default class ToolbarExamplesSimple extends React.Component {
       ]
     } else { 
       menuItems = [
-        <MenuItem primaryText="Login" onTouchTap={me.onOpenLoginDialog.bind(me)} />,
+        <MenuItem primaryText="Login" ref="loginMenuButton" onTouchTap={me.onOpenLoginDialog.bind(me)} />,
         <MenuItem primaryText="Register" onTouchTap={me.onOpenRegisterDialog.bind(me)} />
       ];
+    }
+
+    const loginDialog =
+        <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} 
+            loginError={this.props.loginFail?'login failed':''}/>;
+    const registerDialog = 
+        <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 
+            onCancel={this.hideRegisterDialog.bind(this)} />;
+
+    // this is to make the menu items accessible to enzyme: https://github.com/airbnb/enzyme/issues/252
+    if (global.__isTest__) {
+      global.mainMenuItems = menuItems;
+      global.loginDialog = loginDialog;
+      global.registerDialog = registerDialog;
     }
     return (
       <Paper>
@@ -97,6 +115,9 @@ export default class ToolbarExamplesSimple extends React.Component {
                   <NavigationExpandMoreIcon />
                 </IconButton>
               }
+              open={me.props.menuOpened}
+              onRequestChange={me.toggleMenu.bind(me)}
+              useLayerForClickAway={true}
             >
               {menuItems}
             </IconMenu>
@@ -104,9 +125,8 @@ export default class ToolbarExamplesSimple extends React.Component {
         </Toolbar>
         <div style={{maxWidth: '800px', margin: 'auto'}}> {this.props.children || <CategoryView categoryID={1} />}
         </div>
-        <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} />
-        <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 
-            onCancel={this.hideRegisterDialog.bind(this)} />
+        {loginDialog}
+        {registerDialog}
       </Paper>
     );
   }

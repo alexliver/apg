@@ -59,6 +59,10 @@ export default class MainComponent extends React.Component {
     this.props.dispatch(actions.login(username, password));
   }
 
+  onLogout() {
+    this.props.dispatch(actions.logout());
+  }
+
   onRegister(username, password) {
     this.props.dispatch(actions.register(username, password));
   }
@@ -111,12 +115,29 @@ export default class MainComponent extends React.Component {
     const me = this;
     let menuItems ;
     if (this.props.loggedInUserName) {
-      menuItems = [<MenuItem>Hello, {this.props.loggedInUserName}</MenuItem>]
+      menuItems = [
+        <MenuItem>Hello, {this.props.loggedInUserName}</MenuItem>,
+        <MenuItem onClick={me.onLogout.bind(me)}>Log out</MenuItem>,
+      ]
     } else {
       menuItems = [
         <MenuItem onClick={this.onOpenLoginDialog.bind(this)}>Login</MenuItem>,
         <MenuItem onClick={this.onOpenRegisterDialog.bind(this)}>Register</MenuItem>,
       ]
+    }
+
+    const loginDialog =
+        <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} 
+            loginError={this.props.loginFail?'login failed':''}/>;
+    const registerDialog = 
+        <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 
+            onCancel={this.hideRegisterDialog.bind(this)} />;
+
+    // this is to make the menu items accessible to enzyme: https://github.com/airbnb/enzyme/issues/252
+    if (global.__isTest__) {
+      global.mainMenuItems = menuItems;
+      global.loginDialog = loginDialog;
+      global.registerDialog = registerDialog;
     }
 
     return (
@@ -150,9 +171,8 @@ export default class MainComponent extends React.Component {
         <Drawer open={this.props.menuOpened} docked={false} onRequestChange={this.hangleMenuChange.bind(this)} openSecondary={true}>
           {menuItems}
         </Drawer>
-        <LoginDialog open={this.props.loginDialogOpened} onLogin={this.onLogin.bind(this)} onCancel={this.hideLoginDialog.bind(this)} />
-        <RegisterDialog open={this.props.registerDialogOpened} onRegister={this.onRegister.bind(this)} 
-            onCancel={this.hideRegisterDialog.bind(this)} />
+        {loginDialog}
+        {registerDialog}
       </div>
     )
   }

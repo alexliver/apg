@@ -13,10 +13,14 @@ const epics = {
       let password = action.password;
       return ajax.post(getAPIUrl() + 'o/token/', {
         username, password,grant_type:"password", client_id: config.client_id, client_secret: config.client_secret
-      }).map(res=>res.response).mergeMap(res => {
+      })
+      .map(res=>res.response).mergeMap(res => {
         sessionStorage.setItem("token", res.access_token);
         sessionStorage.setItem("username", username);
         return Observable.from([actions.loggedIn(res.access_token, res.refresh_token, username), actions.hideLoginDialog()])
+      })
+      .catch(err => {
+        return Observable.from([actions.loginFail()]);
       });
     });
 

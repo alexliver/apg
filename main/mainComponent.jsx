@@ -20,6 +20,7 @@ const mapStateToProps = (state, props) => {
     loggedInUserName,
     isRoot: state.isRoot,
     isInAboutPage: state.isInAboutPage,
+    loginFail: state.loginFail,
   };
 }
 
