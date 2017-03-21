@@ -18,13 +18,24 @@ class AboutComponent extends React.Component {
     const me = this;
     this.props.dispatch(mainActions.setIsRoot(true));
     this.props.dispatch(mainActions.goToAboutPage())
+    var addScript = document.createElement('script');
+    addScript.setAttribute('src', 'http://www.cornify.com/js/cornify.js');
+    document.body.appendChild(addScript);
+  }
+
+  showCornify() {
+    window.cornify_add();
   }
 
   render () {
     return (
       <Paper style={style}>
         <p>
-          I am Alex Yin. I musician and programmer. I did this website to play around with the latest web technologies 
+          I am Alex Yin. I musician and programmer. I did this website to
+          <a onClick={this.showCornify.bind(this)}>
+            &nbsp;play around&nbsp;
+          </a>
+          with the latest web technologies 
           and have a place to store my thoughts.
         </p>
         <p>
