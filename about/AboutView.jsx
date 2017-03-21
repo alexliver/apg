@@ -19,7 +19,7 @@ class AboutComponent extends React.Component {
     this.props.dispatch(mainActions.setIsRoot(true));
     this.props.dispatch(mainActions.goToAboutPage())
     var addScript = document.createElement('script');
-    addScript.setAttribute('src', 'http://www.cornify.com/js/cornify.js');
+    addScript.setAttribute('src', 'https://www.cornify.com/js/cornify.js');
     document.body.appendChild(addScript);
   }
 
