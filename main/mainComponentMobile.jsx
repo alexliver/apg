@@ -158,10 +158,12 @@ export default class MainComponent extends React.Component {
               <BottomNavigationItem
                 label={category.name}
                 icon={getCategoryIcon(category.iconType)}
+                href={`/category/${category.pk}`}
                 onTouchTap={() => me.clickCategory(category.pk)}
               />), 
               <BottomNavigationItem
                 label='About'
+                href='/about/'
                 icon={getCategoryIcon("about")}
                 onTouchTap={() => me.clickAbout()}
               />, 

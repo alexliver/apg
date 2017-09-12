@@ -99,10 +99,12 @@ export default class ToolbarExamplesSimple extends React.Component {
             <FlatButton
               label={category.name}
               primary={category.pk == me.props.selectedCategoryID}
+              href={`/category/${category.pk}`}
               onTouchTap={() => me.clickCategory(category.pk)}
             />),
             <FlatButton
               label='About'
+              href='/about/'
               primary={me.props.isInAboutPage}
               onTouchTap={() => me.clickAbout()}
             />
